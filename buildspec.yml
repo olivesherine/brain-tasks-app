@@ -1,0 +1,25 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging into DockerHub...
+      - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - aws eks update-kubeconfig --name brain-tasks-cluster --region us-east-2
+  build:
+    commands:
+      - echo Building Docker image...
+      - docker build -t olivejoseph1/brain-tasks-image:latest .
+  post_build:
+    commands:
+      - echo Pushing image to DockerHub...
+      - docker push olivejoseph1/brain-tasks-image:latest
+      - echo Deploying to EKS...
+      - kubectl apply -f deployment.yaml
+      - kubectl apply -f service.yaml
+
+artifacts:
+  files:
+    - deployment.yaml
+    - service.yaml
+    - buildspec.yml
