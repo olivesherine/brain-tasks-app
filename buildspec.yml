@@ -15,11 +15,11 @@ phases:
       - echo Pushing image to DockerHub...
       - docker push olivejoseph1/brain-tasks-image:latest
       - echo Deploying to EKS...
-      - kubectl apply -f deployment.yaml
-      - kubectl apply -f service.yaml
+      - kubectl apply -f deployment.yml
+      - kubectl apply -f service.yml
 
 artifacts:
   files:
-    - deployment.yaml
-    - service.yaml
+    - deployment.yml
+    - service.yml
     - buildspec.yml
